@@ -9,6 +9,7 @@ import ru.practicum.shareit.exeptions.DuplicateEmail;
 import ru.practicum.shareit.user.dto.UserDto;
 import ru.practicum.shareit.user.model.User;
 import ru.practicum.shareit.user.repository.UserRepository;
+
 import java.util.List;
 
 @Service
@@ -67,7 +68,7 @@ public class UserServiceImpl implements UserService {
         if (userRepository.findAll().stream()
                 .filter(n -> n.getId() != userId)
                 .filter(o -> o.getEmail().equals(email))
-                .findAny().isPresent()){
+                .findAny().isPresent()) {
             throw new DuplicateEmail("Такой Email уже существует");
         }
     }

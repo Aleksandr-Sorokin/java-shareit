@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.*;
 import ru.practicum.shareit.user.dto.UserDto;
 import ru.practicum.shareit.user.model.User;
 import ru.practicum.shareit.user.service.UserService;
+
 import javax.validation.Valid;
 import java.util.List;
 
@@ -21,12 +22,12 @@ public class UserController {
     private final UserService userService;
 
     @GetMapping("/{userId}")
-    public UserDto getUser(@PathVariable long userId){
+    public UserDto getUser(@PathVariable long userId) {
         return userService.findUserById(userId);
     }
 
     @PostMapping
-    public UserDto addUser(@Valid @RequestBody User user){
+    public UserDto addUser(@Valid @RequestBody User user) {
         return userService.addUser(user);
     }
 
@@ -36,7 +37,7 @@ public class UserController {
     }
 
     @DeleteMapping("/{userId}")
-    public void deleteUser(@PathVariable long userId){
+    public void deleteUser(@PathVariable long userId) {
         userService.deleteUser(userId);
     }
 

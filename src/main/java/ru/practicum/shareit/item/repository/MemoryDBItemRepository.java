@@ -19,7 +19,7 @@ public class MemoryDBItemRepository implements  ItemRepository {
         if (item == null) throw new ValidationException("Нет данных для добавления");
         List<Item> itemsAdd = new ArrayList<>();
         item.setId(generateId());
-        if (itemDBTemp.containsKey(userId)){
+        if (itemDBTemp.containsKey(userId)) {
             List<Item> items = itemDBTemp.get(userId);
             items.add(item);
             itemDBTemp.put(userId, items);
@@ -44,7 +44,7 @@ public class MemoryDBItemRepository implements  ItemRepository {
 
     @Override
     public Item changeItem(long userId, long itemId, Item item) {
-        if (itemDBTemp.containsKey(userId) && item != null){
+        if (itemDBTemp.containsKey(userId) && item != null) {
             return itemDBTemp.values().stream()
                     .flatMap(Collection::stream)
                     .filter(o -> o.getId() == itemId)
@@ -66,7 +66,7 @@ public class MemoryDBItemRepository implements  ItemRepository {
 
     @Override
     public List<Item> findByUserId(long userId) {
-        if (itemDBTemp.containsKey(userId)){
+        if (itemDBTemp.containsKey(userId)) {
             return itemDBTemp.get(userId);
         } else {
             throw new NotFoundException("Пользователь отсутствует");
@@ -75,11 +75,10 @@ public class MemoryDBItemRepository implements  ItemRepository {
 
     @Override
     public void deleteByUserIdAndItemId(long userId, long itemId) {
-        if (itemDBTemp.containsKey(userId)){
-            Item deleteItem = itemDBTemp.get(userId).stream()
-                    .filter(o -> o.getId() == itemId)
-                    .findFirst().orElseThrow(() -> new NotFoundException("Вешь с таким id отсутствует"));
-            itemDBTemp.values().remove(deleteItem);
+        if (itemDBTemp.containsKey(userId)) {
+            itemDBTemp.put(userId, itemDBTemp.get(userId).stream()
+                    .filter(o -> o.getId() != itemId)
+                    .collect(Collectors.toList()));
         } else {
             throw new NotFoundException("Пользователь отсутствует");
         }

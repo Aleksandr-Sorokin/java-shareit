@@ -25,7 +25,7 @@ public class ItemController {
 
     @GetMapping("/{itemId}")
     public ItemDto findItemById(@RequestHeader("X-Sharer-User-Id") long userId,
-                           @PathVariable long itemId){
+                           @PathVariable long itemId) {
         checkValidId(userId);
         checkValidId(itemId);
         return itemService.findItemById(itemId);
@@ -36,11 +36,13 @@ public class ItemController {
         if (text.isBlank()) return new ArrayList<>();
         return itemService.searchItem(text);
     }
+
     @GetMapping
     public List<ItemDto> findByUserId(@RequestHeader("X-Sharer-User-Id") long userId) {
         checkValidId(userId);
         return itemService.findByUserId(userId);
     }
+
     @PostMapping
     public ItemDto addItem(@RequestHeader("X-Sharer-User-Id") long userId,
                            @Valid @RequestBody ItemDto itemDto) {

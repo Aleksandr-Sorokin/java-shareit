@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 import ru.practicum.shareit.exeptions.NotFoundException;
 import ru.practicum.shareit.user.model.User;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,7 +25,7 @@ public class MemoryDBRepository implements UserRepository {
 
     @Override
     public User changeUser(long userId, User user) {
-        if (userDBTemp.containsKey(userId)){
+        if (userDBTemp.containsKey(userId)) {
             userDBTemp.put(userId, user);
         } else {
             throw new NotFoundException("Нельзя изменить пользователя, он отсутствует");
@@ -34,10 +35,10 @@ public class MemoryDBRepository implements UserRepository {
 
     @Override
     public User findUserById(long userId) {
-        if (userDBTemp.containsKey(userId)){
+        if (userDBTemp.containsKey(userId)) {
             return userDBTemp.get(userId);
         } else {
-            throw new NotFoundException( userId + "Пользователь отсутствует");
+            throw new NotFoundException(userId + "Пользователь отсутствует");
         }
     }
 
