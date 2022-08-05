@@ -51,7 +51,7 @@ public class MemoryDBRepository implements UserRepository {
         userDBTemp.remove(userId);
     }
 
-    private long generateId(){
+    private long generateId() {
         return id += 1;
     }
 }

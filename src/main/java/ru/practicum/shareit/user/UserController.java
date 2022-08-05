@@ -12,6 +12,7 @@ import java.util.List;
 /**
  * // TODO .
  */
+
 @RestController
 @RequestMapping(path = "/users")
 @RequiredArgsConstructor
@@ -30,7 +31,7 @@ public class UserController {
     }
 
     @PatchMapping("/{userId}")
-    public UserDto changeUser(@PathVariable long userId, @RequestBody UserDto userDto){
+    public UserDto changeUser(@PathVariable long userId, @RequestBody UserDto userDto) {
         return userService.changeUser(userId, userDto);
     }
 

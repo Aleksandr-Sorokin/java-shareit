@@ -15,28 +15,28 @@ import ru.practicum.shareit.exeptions.model.ErrorResponse;
 public class ErrorHandler {
     @ExceptionHandler(NotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    public ErrorResponse handleNotFoundException(final NotFoundException e){
+    public ErrorResponse handleNotFoundException(final NotFoundException e) {
         return new ErrorResponse(String.format("Message: "
                 + e.getMessage() + "\nStackTrace: " + e.getStackTrace().toString()));
     }
 
     @ExceptionHandler(ValidationException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ErrorResponse handleValidationException(final ValidationException e){
+    public ErrorResponse handleValidationException(final ValidationException e) {
         return new ErrorResponse(String.format("Message: " + e.getMessage()
                 + "\nStackTrace: " + e.getStackTrace().toString()));
     }
 
     @ExceptionHandler(DuplicateEmail.class)
     @ResponseStatus(HttpStatus.CONFLICT)
-    public ErrorResponse handleDuplicateEmail(final DuplicateEmail e){
+    public ErrorResponse handleDuplicateEmail(final DuplicateEmail e) {
         return new ErrorResponse(String.format("Message: " + e.getMessage()
                 + "\nStackTrace: " + e.getStackTrace().toString()));
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ErrorResponse handleThrowable(final MethodArgumentNotValidException e){
+    public ErrorResponse handleThrowable(final MethodArgumentNotValidException e) {
         return new ErrorResponse("Некоректные данные " + e.getStackTrace().toString());
     }
 }

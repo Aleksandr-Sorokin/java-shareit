@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
 
 @Repository
 @Slf4j
-public class MemoryDBItemRepository implements  ItemRepository{
+public class MemoryDBItemRepository implements  ItemRepository {
     long id = 0;
     private Map<Long, List<Item>> itemDBTemp = new HashMap<>();
 
@@ -85,7 +85,7 @@ public class MemoryDBItemRepository implements  ItemRepository{
         }
     }
 
-    private long generateId(){
+    private long generateId() {
         return id += 1;
     }
 }

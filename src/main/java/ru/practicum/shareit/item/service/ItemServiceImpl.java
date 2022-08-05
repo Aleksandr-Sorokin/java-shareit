@@ -16,7 +16,7 @@ import java.util.List;
 
 @Service
 @Slf4j
-public class ItemServiceImpl implements ItemService{
+public class ItemServiceImpl implements ItemService {
     private ItemRepository itemRepository;
     private UserRepository userRepository;
     @Autowired
@@ -64,7 +64,7 @@ public class ItemServiceImpl implements ItemService{
         itemRepository.deleteByUserIdAndItemId(userId, itemId);
     }
 
-    private ItemDto convertToItemDto(Item item){
+    private ItemDto convertToItemDto(Item item) {
         User user = item.getOwner();
         UserDto userDto = modelMapper.map(user, UserDto.class);
         ItemDto itemDto = modelMapper.map(item, ItemDto.class);
@@ -72,7 +72,7 @@ public class ItemServiceImpl implements ItemService{
         return itemDto;
     }
 
-    private Item convertToItem(long userId, ItemDto itemDto){
+    private Item convertToItem(long userId, ItemDto itemDto) {
         User user = userRepository.findUserById(userId);
         Item item = modelMapper.map(itemDto, Item.class);
         item.setOwner(user);

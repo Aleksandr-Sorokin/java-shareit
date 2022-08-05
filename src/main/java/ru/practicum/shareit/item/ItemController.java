@@ -12,6 +12,7 @@ import java.util.List;
 /**
  * // TODO .
  */
+
 @RestController
 @RequestMapping("/items")
 @Slf4j
@@ -31,18 +32,18 @@ public class ItemController {
     }
 
     @GetMapping("/search")
-    public List<ItemDto> searchItem(@RequestParam String text){
+    public List<ItemDto> searchItem(@RequestParam String text) {
         if (text.isBlank()) return new ArrayList<>();
         return itemService.searchItem(text);
     }
     @GetMapping
-    public List<ItemDto> findByUserId(@RequestHeader("X-Sharer-User-Id") long userId){
+    public List<ItemDto> findByUserId(@RequestHeader("X-Sharer-User-Id") long userId) {
         checkValidId(userId);
         return itemService.findByUserId(userId);
     }
     @PostMapping
     public ItemDto addItem(@RequestHeader("X-Sharer-User-Id") long userId,
-                           @Valid @RequestBody ItemDto itemDto){
+                           @Valid @RequestBody ItemDto itemDto) {
         checkValidId(userId);
         if (itemDto == null) throw new ValidationException("Отсутствуют данные по вещи");
         return itemService.addItem(userId, itemDto);
@@ -51,7 +52,7 @@ public class ItemController {
     @PatchMapping("/{itemId}")
     public ItemDto changeItem(@RequestHeader(value = "X-Sharer-User-Id") long userId,
                               @PathVariable(value = "itemId") long itemId,
-                              @RequestBody ItemDto itemDto){
+                              @RequestBody ItemDto itemDto) {
         checkValidId(userId);
         checkValidId(itemId);
         if (itemDto == null) throw new ValidationException("Отсутствуют данные по вещи");
@@ -60,13 +61,13 @@ public class ItemController {
 
     @DeleteMapping("/{itemId}")
     public void deleteByUserIdAndItemId(@RequestHeader("X-Sharer-User-Id") long userId,
-                                        @PathVariable long itemId){
+                                        @PathVariable long itemId) {
         checkValidId(userId);
         checkValidId(itemId);
         itemService.deleteByUserIdAndItemId(userId, itemId);
     }
 
-    private void checkValidId(long id){
+    private void checkValidId(long id) {
         if (id <= 0) throw new ValidationException("Id не должен быть отрицательным");
     }
 }
