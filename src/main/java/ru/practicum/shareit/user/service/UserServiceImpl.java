@@ -6,62 +6,60 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.practicum.shareit.configuration.MapperUtil;
 import ru.practicum.shareit.exeptions.DuplicateEmail;
-import ru.practicum.shareit.user.dto.UserDto;
+import ru.practicum.shareit.exeptions.NotFoundException;
 import ru.practicum.shareit.user.model.User;
+import ru.practicum.shareit.user.model.dto.UserDto;
 import ru.practicum.shareit.user.repository.UserRepository;
+import ru.practicum.shareit.user.service.mappers.UserMapper;
 
 import java.util.List;
 
 @Service
 @Slf4j
 public class UserServiceImpl implements UserService {
-    private UserRepository userRepository;
     @Autowired
     private ModelMapper modelMapper;
+    private UserRepository userRepository;
+    private UserMapper userMapper;
+    private String errorNotFoundText = "Такого пользователя нет";
+    private String errorDuplicateEmailText = "Такой Email уже существует";
 
-    public UserServiceImpl(UserRepository userRepository) {
+    public UserServiceImpl(UserRepository userRepository, UserMapper userMapper) {
         this.userRepository = userRepository;
+        this.userMapper = userMapper;
     }
 
     @Override
-    public UserDto addUser(User user) {
-        if (userRepository.findAll().stream()
-                .filter(o -> o.getEmail().equals(user.getEmail()))
-                .findAny().isPresent()) {
-            throw new DuplicateEmail("Такой Email уже существует у другого пользователя");
-        }
-        userRepository.addUser(user);
-        return convertToUserDto(user);
+    public UserDto addUser(UserDto userDto) {
+        User user = userMapper.toUserEntity(userDto);
+        userRepository.save(user);
+        return userMapper.toUserDto(user);
     }
 
     @Override
     public UserDto changeUser(long userId, UserDto userDto) {
-        User user = userRepository.findUserById(userId);
+        User user = getUserFromRepository(userId);
         userDto.setId(userId);
         checkDuplicateEmail(userId, userDto.getEmail());
         modelMapper.map(userDto, user);
-        userRepository.changeUser(userId, user);
-        return convertToUserDto(user);
+        userRepository.save(user);
+        return userMapper.toUserDto(user);
     }
 
     @Override
     public UserDto findUserById(long userId) {
-        return convertToUserDto(userRepository.findUserById(userId));
+        return userMapper.toUserDto(getUserFromRepository(userId));
     }
 
     @Override
     public List<UserDto> findAll() {
         List<User> users = userRepository.findAll();
-        return MapperUtil.convertList(users, this::convertToUserDto);
+        return MapperUtil.convertList(users, user -> userMapper.toUserDto(user));
     }
 
     @Override
     public void deleteUser(long userId) {
-        userRepository.deleteUser(userId);
-    }
-
-    private UserDto convertToUserDto(User user) {
-        return modelMapper.map(user, UserDto.class);
+        userRepository.deleteById(userId);
     }
 
     private void checkDuplicateEmail(long userId, String email) {
@@ -69,7 +67,11 @@ public class UserServiceImpl implements UserService {
                 .filter(n -> n.getId() != userId)
                 .filter(o -> o.getEmail().equals(email))
                 .findAny().isPresent()) {
-            throw new DuplicateEmail("Такой Email уже существует");
+            throw new DuplicateEmail(errorDuplicateEmailText);
         }
+    }
+
+    private User getUserFromRepository(Long userId) {
+        return userRepository.findById(userId).orElseThrow(() -> new NotFoundException(errorNotFoundText));
     }
 }
