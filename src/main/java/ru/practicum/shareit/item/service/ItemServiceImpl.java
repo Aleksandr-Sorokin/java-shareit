@@ -111,14 +111,8 @@ public class ItemServiceImpl implements ItemService {
                 || commentDto.getCreated().isBefore(booking.getStart())
                 || booking.getStatus().equals(Status.REJECTED)
                 || author.equals(item.getOwner())) throw new ValidationException("Вы не брали в аренду эту вещь");
-        commentDto.setItem(itemMapper.toItemDto(item));
-        commentDto.setAuthorName(author.getName());
-        Comment comment = modelMapper.map(commentDto, Comment.class);
-        comment.setAuthor(author);
-        comment = commentRepository.save(comment);
-        commentDto.setId(comment.getId());
-        CommentDto commentDto1 = commentDto;
-        return commentDto;
+        Comment comment = commentRepository.save(itemMapper.toComment(author, item, commentDto));
+        return itemMapper.toCommentDto(comment);
     }
 
     @Override
