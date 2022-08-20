@@ -5,10 +5,6 @@ import ru.practicum.shareit.user.model.dto.UserDto;
 
 import java.time.LocalDateTime;
 
-/**
- * // TODO .
- */
-
 @Data
 public class ItemRequestDto {
     private final long id;

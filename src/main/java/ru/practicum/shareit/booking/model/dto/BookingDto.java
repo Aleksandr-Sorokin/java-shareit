@@ -8,10 +8,6 @@ import ru.practicum.shareit.user.model.dto.UserDto;
 
 import java.time.LocalDateTime;
 
-/**
- * // TODO .
- */
-
 @Data
 public class BookingDto {
     private Long id;

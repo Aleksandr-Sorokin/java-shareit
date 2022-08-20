@@ -7,10 +7,6 @@ import ru.practicum.shareit.user.model.User;
 import javax.persistence.*;
 import java.util.List;
 
-/**
- * // TODO .
- */
-
 @Data
 @Entity
 @Table(name = "items")

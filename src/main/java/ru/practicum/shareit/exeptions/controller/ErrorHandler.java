@@ -15,7 +15,6 @@ import ru.practicum.shareit.exeptions.model.ErrorResponse;
 import java.util.HashMap;
 import java.util.Map;
 
-
 @RestControllerAdvice
 public class ErrorHandler {
     @ExceptionHandler(NotFoundException.class)

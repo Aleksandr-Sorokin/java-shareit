@@ -4,10 +4,6 @@ import lombok.Data;
 
 import javax.persistence.*;
 
-/**
- * // TODO .
- */
-
 @Data
 @Entity
 @Table(name = "users")

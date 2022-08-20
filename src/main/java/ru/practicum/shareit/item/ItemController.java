@@ -13,10 +13,6 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * // TODO .
- */
-
 @RestController
 @RequestMapping("/items")
 @Slf4j

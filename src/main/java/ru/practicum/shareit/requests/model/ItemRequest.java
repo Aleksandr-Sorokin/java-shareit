@@ -7,10 +7,6 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.time.LocalDateTime;
 
-/**
- * // TODO .
- */
-
 @Data
 @Entity
 @Table(name = "requests")

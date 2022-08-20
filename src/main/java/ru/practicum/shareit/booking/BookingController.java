@@ -12,10 +12,6 @@ import ru.practicum.shareit.user.service.UserService;
 
 import java.util.List;
 
-/**
- * // TODO .
- */
-
 @RestController
 @RequestMapping(path = "/bookings")
 @Slf4j
