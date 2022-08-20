@@ -73,7 +73,7 @@ public class ItemMapper {
         commentDto.setAuthorName(author.getName());
         return commentDto;
     }
-    
+
     public Comment toComment(User author, Item item, CommentDto commentDto) {
         Comment comment = modelMapper.map(commentDto, Comment.class);
         comment.setAuthor(author);
