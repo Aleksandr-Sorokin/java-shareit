@@ -1,26 +1,30 @@
 package ru.practicum.shareit.item.model;
 
 import lombok.Data;
+import ru.practicum.shareit.requests.model.ItemRequest;
 import ru.practicum.shareit.user.model.User;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 
-/**
- * // TODO .
- */
+import javax.persistence.*;
+import java.util.List;
 
 @Data
+@Entity
+@Table(name = "items")
 public class Item {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    @NotBlank(message = "Необходимо название для вещи")
+    @Column(name = "name", nullable = false, length = 100)
     private String name;
-    @NotBlank(message = "Необходимо описание для вещи")
-    @Size(max = 300, message = "Длина описания не должна превышать 300 символов")
+    @Column(name = "description", nullable = false, length = 250)
     private String description;
-    @NotNull
     private Boolean available; //статус о том, доступна или нет вещь для аренды
-    @NotBlank
+    @ManyToOne
+    @JoinColumn(name = "owner_id")
     private User owner; //владелец вещи
-    private String request; //если вещь была создана по запросу другого пользователя, то ссылка на запрос
+    @OneToOne
+    @JoinColumn(name = "request_id")
+    private ItemRequest request; //если вещь была создана по запросу другого пользователя, то ссылка на запрос
+    @Transient
+    private List<Comment> comments;
 }

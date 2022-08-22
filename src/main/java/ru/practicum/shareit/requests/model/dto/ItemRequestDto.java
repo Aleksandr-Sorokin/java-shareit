@@ -1,12 +1,9 @@
-package ru.practicum.shareit.requests.dto;
+package ru.practicum.shareit.requests.model.dto;
 
 import lombok.Data;
-import ru.practicum.shareit.user.dto.UserDto;
-import java.time.LocalDateTime;
+import ru.practicum.shareit.user.model.dto.UserDto;
 
-/**
- * // TODO .
- */
+import java.time.LocalDateTime;
 
 @Data
 public class ItemRequestDto {
