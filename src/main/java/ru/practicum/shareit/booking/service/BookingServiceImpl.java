@@ -1,8 +1,7 @@
 package ru.practicum.shareit.booking.service;
 
-import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import ru.practicum.shareit.booking.enums.State;
 import ru.practicum.shareit.booking.enums.Status;
@@ -22,20 +21,18 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
-@Slf4j
 public class BookingServiceImpl implements BookingService {
     private ItemRepository itemRepository;
     private BookingRepository bookingRepository;
     private UserRepository userRepository;
-
-    @Autowired
     private ModelMapper modelMapper;
 
     public BookingServiceImpl(ItemRepository itemRepository, BookingRepository bookingRepository,
-                              UserRepository userRepository) {
+                              UserRepository userRepository, ModelMapper modelMapper) {
         this.itemRepository = itemRepository;
         this.bookingRepository = bookingRepository;
         this.userRepository = userRepository;
+        this.modelMapper = modelMapper;
     }
 
     @Override
@@ -78,33 +75,33 @@ public class BookingServiceImpl implements BookingService {
     }
 
     @Override
-    public List<BookingDto> getAllBookingByBookerId(long bookerId, State state) {
+    public List<BookingDto> getAllBookingByBookerId(long bookerId, State state, Pageable pageable) {
         checkUser(bookerId);
         switch (state) {
             case ALL:
                 List<BookingDto> bookingDtoList = MapperUtil.convertList(bookingRepository
-                                .findAllByBooker_IdOrderByStartDesc(bookerId),
+                                .findAllByBooker_IdOrderByStartDesc(bookerId, pageable),
                         this::convertToDto);
                 return bookingDtoList;
             case PAST:
                 return MapperUtil.convertList(bookingRepository
-                                .findAllByBookerPast(bookerId, LocalDateTime.now()),
+                                .findAllByBookerPast(bookerId, LocalDateTime.now(), pageable),
                         this::convertToDto);
             case CURRENT:
                 return MapperUtil.convertList(bookingRepository
-                                .findAllByBookerCurrent(bookerId, LocalDateTime.now()),
+                                .findAllByBookerCurrent(bookerId, LocalDateTime.now(), pageable),
                         this::convertToDto);
             case FUTURE:
                 return MapperUtil.convertList(bookingRepository
-                                .findAllByBookerFuture(bookerId, LocalDateTime.now()),
+                                .findAllByBookerFuture(bookerId, LocalDateTime.now(), pageable),
                         this::convertToDto);
             case WAITING:
                 return MapperUtil.convertList(bookingRepository
-                                .findAllByBookerAndStatus(bookerId, Status.WAITING),
+                                .findAllByBookerAndStatus(bookerId, Status.WAITING, pageable),
                         this::convertToDto);
             case REJECTED:
                 return MapperUtil.convertList(bookingRepository
-                                .findAllByBookerAndStatus(bookerId, Status.REJECTED),
+                                .findAllByBookerAndStatus(bookerId, Status.REJECTED, pageable),
                         this::convertToDto);
             default:
                 throw new ValidationException("Unknown state: UNSUPPORTED_STATUS");
@@ -116,33 +113,33 @@ public class BookingServiceImpl implements BookingService {
     }
 
     @Override
-    public List<BookingDto> getAllBookingByOwnerId(long ownerId, State state) {
+    public List<BookingDto> getAllBookingByOwnerId(long ownerId, State state, Pageable pageable) {
         checkUser(ownerId);
         switch (state) {
             case ALL:
                 List<BookingDto> bookingDtoList = MapperUtil.convertList(bookingRepository
-                                .findAllByItem_Owner_IdOrderByStartDesc(ownerId),
+                                .findAllByItem_Owner_IdOrderByStartDesc(ownerId, pageable),
                         this::convertToDto);
                 return bookingDtoList;
             case PAST:
                 return MapperUtil.convertList(bookingRepository
-                                .findAllByOwnerPast(ownerId, LocalDateTime.now()),
+                                .findAllByOwnerPast(ownerId, LocalDateTime.now(), pageable),
                         this::convertToDto);
             case CURRENT:
                 return MapperUtil.convertList(bookingRepository
-                                .findAllByOwnerCurrent(ownerId, LocalDateTime.now()),
+                                .findAllByOwnerCurrent(ownerId, LocalDateTime.now(), pageable),
                         this::convertToDto);
             case FUTURE:
                 return MapperUtil.convertList(bookingRepository
-                                .findAllByOwnerFuture(ownerId, LocalDateTime.now()),
+                                .findAllByOwnerFuture(ownerId, LocalDateTime.now(), pageable),
                         this::convertToDto);
             case WAITING:
                 return MapperUtil.convertList(bookingRepository
-                                .findAllByOwnerAndStatus(ownerId, Status.WAITING),
+                                .findAllByOwnerAndStatus(ownerId, Status.WAITING, pageable),
                         this::convertToDto);
             case REJECTED:
                 return MapperUtil.convertList(bookingRepository
-                                .findAllByOwnerAndStatus(ownerId, Status.REJECTED),
+                                .findAllByOwnerAndStatus(ownerId, Status.REJECTED, pageable),
                         this::convertToDto);
             default:
                 throw new ValidationException("Unknown state: UNSUPPORTED_STATUS");

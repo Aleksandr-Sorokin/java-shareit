@@ -1,7 +1,6 @@
 package ru.practicum.shareit.item.service.mappers;
 
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import ru.practicum.shareit.booking.mappers.BookingMapping;
 import ru.practicum.shareit.booking.model.Booking;
@@ -13,6 +12,8 @@ import ru.practicum.shareit.item.model.Item;
 import ru.practicum.shareit.item.model.dto.CommentDto;
 import ru.practicum.shareit.item.model.dto.ItemDto;
 import ru.practicum.shareit.item.model.dto.ItemDtoBooking;
+import ru.practicum.shareit.item.model.dto.ItemForRequestDto;
+import ru.practicum.shareit.requests.model.ItemRequest;
 import ru.practicum.shareit.user.model.User;
 import ru.practicum.shareit.user.service.mappers.UserMapper;
 
@@ -20,23 +21,24 @@ import java.util.List;
 
 @Component
 public class ItemMapper {
-    @Autowired
     private ModelMapper modelMapper;
     private UserMapper userMapper;
     private BookingMapping bookingMapping;
     private String textValidError = "Отсутствуют данные";
 
-    public ItemMapper(UserMapper userMapper, BookingMapping bookingMapping) {
+    public ItemMapper(ModelMapper modelMapper, UserMapper userMapper, BookingMapping bookingMapping) {
+        this.modelMapper = modelMapper;
         this.userMapper = userMapper;
         this.bookingMapping = bookingMapping;
     }
 
-    public Item toItemEntity(User user, ItemDto itemDto) {
+    public Item toItemEntity(User user, ItemDto itemDto, ItemRequest request) {
         if (itemDto == null) {
             throw new ValidationException(textValidError);
         } else {
             Item item = modelMapper.map(itemDto, Item.class);
             item.setOwner(user);
+            item.setRequest(request);
             return item;
         }
     }
@@ -60,6 +62,9 @@ public class ItemMapper {
             itemDto.setOwner(userMapper.toUserDto(user));
             if (item.getComments() != null) {
                 itemDto.setComments(MapperUtil.convertList(item.getComments(), this::toCommentDto));
+            }
+            if (item.getRequest() != null) {
+                itemDto.setRequestId(item.getRequest().getId());
             }
             return itemDto;
         }
@@ -97,6 +102,17 @@ public class ItemMapper {
                 itemDtoBooking.setNextBooking(null);
             }
             return itemDtoBooking;
+        }
+    }
+
+    public ItemForRequestDto toDtoItemForRequest(Item item) {
+        if (item == null) {
+            throw new ValidationException(textValidError);
+        } else {
+            ItemForRequestDto dto = modelMapper.map(item, ItemForRequestDto.class);
+            dto.setOwnerId(item.getOwner().getId());
+            if (item.getRequest() != null) dto.setRequestId(item.getRequest().getId());
+            return dto;
         }
     }
 }

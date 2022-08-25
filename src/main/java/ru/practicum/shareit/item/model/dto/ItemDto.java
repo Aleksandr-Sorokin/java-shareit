@@ -10,7 +10,7 @@ import java.util.List;
 
 @Data
 public class ItemDto {
-    private long id;
+    private Long id;
     @NotBlank(message = "Необходимо название для вещи")
     @Size(max = 100, message = "Длина название не должна превышать 100 символов")
     private String name;
@@ -20,6 +20,6 @@ public class ItemDto {
     @NotNull
     private Boolean available; //статус о том, доступна или нет вещь для аренды
     private UserDto owner; //владелец вещи
-    private String request; //если вещь была создана по запросу другого пользователя, то ссылка на запрос
+    private Long requestId; //если вещь была создана по запросу другого пользователя, то ссылка на запрос
     private List<CommentDto> comments;
 }

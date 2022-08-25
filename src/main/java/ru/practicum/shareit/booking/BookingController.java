@@ -1,11 +1,13 @@
 package ru.practicum.shareit.booking;
 
-import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.shareit.booking.enums.State;
 import ru.practicum.shareit.booking.model.dto.BookingDto;
 import ru.practicum.shareit.booking.model.dto.BookingDtoId;
 import ru.practicum.shareit.booking.service.BookingService;
+import ru.practicum.shareit.configuration.PageHandlerRequest;
 import ru.practicum.shareit.exeptions.ValidationException;
 import ru.practicum.shareit.item.service.ItemService;
 import ru.practicum.shareit.user.service.UserService;
@@ -14,7 +16,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping(path = "/bookings")
-@Slf4j
 public class BookingController {
     private ItemService itemService;
     private UserService userService;
@@ -53,16 +54,24 @@ public class BookingController {
 
     @GetMapping
     public List<BookingDto> getBookingByIdBooker(@RequestHeader("X-Sharer-User-Id") long bookerId,
-                                                 @RequestParam(defaultValue = "ALL") State state) {
+                                                 @RequestParam(defaultValue = "ALL") State state,
+                                                 @RequestParam(defaultValue = "0", required = false) int from,
+                                                 @RequestParam(defaultValue = "20", required = false) int size) {
         checkValidId(bookerId);
-        return bookingService.getAllBookingByBookerId(bookerId, state);
+        if (from < 0 || size < 1) throw new ValidationException("Не корректные данные");
+        Pageable pageable = PageHandlerRequest.of(from, size, Sort.by(Sort.Direction.DESC, "start"));
+        return bookingService.getAllBookingByBookerId(bookerId, state, pageable);
     }
 
     @GetMapping("/owner")
     public List<BookingDto> getBookingByIdOwner(@RequestHeader("X-Sharer-User-Id") long ownerId,
-                                                @RequestParam(defaultValue = "ALL") State state) {
+                                                @RequestParam(defaultValue = "ALL") State state,
+                                                @RequestParam(defaultValue = "0", required = false) int from,
+                                                @RequestParam(defaultValue = "20", required = false) int size) {
         checkValidId(ownerId);
-        return bookingService.getAllBookingByOwnerId(ownerId, state);
+        if (from < 0 || size < 1) throw new ValidationException("Не корректные данные");
+        Pageable pageable = PageHandlerRequest.of(from, size, Sort.by(Sort.Direction.DESC, "start"));
+        return bookingService.getAllBookingByOwnerId(ownerId, state, pageable);
     }
 
     private void checkValidId(long id) {

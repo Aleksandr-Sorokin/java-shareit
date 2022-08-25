@@ -2,7 +2,6 @@ package ru.practicum.shareit.booking.mappers;
 
 import org.modelmapper.Converter;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import ru.practicum.shareit.booking.model.Booking;
 import ru.practicum.shareit.booking.model.dto.BookingDtoId;
@@ -16,13 +15,13 @@ import java.util.Objects;
 
 @Component
 public class BookingMapping {
-    @Autowired
     private ModelMapper modelMapper;
     private UserRepository userRepository;
     private ItemRepository itemRepository;
     private UserMapper userMapper;
 
-    public BookingMapping(UserRepository userRepository, ItemRepository itemRepository, UserMapper userMapper) {
+    public BookingMapping(ModelMapper modelMapper, UserRepository userRepository, ItemRepository itemRepository, UserMapper userMapper) {
+        this.modelMapper = modelMapper;
         this.userRepository = userRepository;
         this.itemRepository = itemRepository;
         this.userMapper = userMapper;

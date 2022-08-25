@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 public class ItemRequest {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
     @NotBlank
     @Column(name = "description", nullable = false, length = 250)
     private String description;

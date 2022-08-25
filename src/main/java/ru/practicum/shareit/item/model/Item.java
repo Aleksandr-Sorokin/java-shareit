@@ -13,7 +13,7 @@ import java.util.List;
 public class Item {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
     @Column(name = "name", nullable = false, length = 100)
     private String name;
     @Column(name = "description", nullable = false, length = 250)
@@ -22,7 +22,7 @@ public class Item {
     @ManyToOne
     @JoinColumn(name = "owner_id")
     private User owner; //владелец вещи
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "request_id")
     private ItemRequest request; //если вещь была создана по запросу другого пользователя, то ссылка на запрос
     @Transient

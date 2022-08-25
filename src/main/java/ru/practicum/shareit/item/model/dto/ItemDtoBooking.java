@@ -11,7 +11,7 @@ import java.util.List;
 
 @Data
 public class ItemDtoBooking {
-    private long id;
+    private Long id;
     @NotBlank(message = "Необходимо название для вещи")
     @Size(max = 100, message = "Длина название не должна превышать 100 символов")
     private String name;

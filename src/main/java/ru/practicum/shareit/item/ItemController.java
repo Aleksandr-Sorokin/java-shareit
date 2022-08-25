@@ -1,7 +1,8 @@
 package ru.practicum.shareit.item;
 
-import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
+import ru.practicum.shareit.configuration.PageHandlerRequest;
 import ru.practicum.shareit.exeptions.ValidationException;
 import ru.practicum.shareit.item.model.dto.CommentDto;
 import ru.practicum.shareit.item.model.dto.ItemDto;
@@ -15,7 +16,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/items")
-@Slf4j
 public class ItemController {
     private ItemService itemService;
 
@@ -32,15 +32,23 @@ public class ItemController {
     }
 
     @GetMapping("/search")
-    public List<ItemDto> searchItem(@RequestParam String text) {
+    public List<ItemDto> searchItem(@RequestParam String text,
+                                    @RequestParam(defaultValue = "0", required = false) int from,
+                                    @RequestParam(defaultValue = "20", required = false) int size) {
         if (text.isBlank()) return new ArrayList<>();
-        return itemService.searchItem(text);
+        if (from < 0 || size < 1) throw new ValidationException("Не корректные данные");
+        Pageable pageable = PageHandlerRequest.of(from, size);
+        return itemService.searchItem(text, pageable);
     }
 
     @GetMapping
-    public List<ItemDtoBooking> findByUserId(@RequestHeader("X-Sharer-User-Id") long userId) {
+    public List<ItemDtoBooking> findByUserId(@RequestHeader("X-Sharer-User-Id") long userId,
+                                             @RequestParam(defaultValue = "0", required = false) int from,
+                                             @RequestParam(defaultValue = "20", required = false) int size) {
         checkValidId(userId);
-        return itemService.findByUserId(userId);
+        if (from < 0 || size < 1) throw new ValidationException("Не корректные данные");
+        Pageable pageable = PageHandlerRequest.of(from, size);
+        return itemService.findByUserId(userId, pageable);
     }
 
     @PostMapping

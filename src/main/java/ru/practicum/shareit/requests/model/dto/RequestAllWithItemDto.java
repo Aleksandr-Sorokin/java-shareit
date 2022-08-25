@@ -2,17 +2,16 @@ package ru.practicum.shareit.requests.model.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
-import ru.practicum.shareit.user.model.dto.UserDto;
+import ru.practicum.shareit.item.model.dto.ItemForRequestDto;
 
-import javax.validation.constraints.NotBlank;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
-public class ItemRequestDto {
+public class RequestAllWithItemDto {
     private Long id;
-    @NotBlank
     private String description;
-    private UserDto requestor;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "YYYY-MM-dd'T'HH:mm:ss")
     private LocalDateTime created;
+    private List<ItemForRequestDto> items;
 }

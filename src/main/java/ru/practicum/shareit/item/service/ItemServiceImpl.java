@@ -1,8 +1,7 @@
 package ru.practicum.shareit.item.service;
 
-import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import ru.practicum.shareit.booking.enums.Status;
 import ru.practicum.shareit.booking.model.Booking;
@@ -18,6 +17,8 @@ import ru.practicum.shareit.item.model.dto.ItemDtoBooking;
 import ru.practicum.shareit.item.repository.CommentRepository;
 import ru.practicum.shareit.item.repository.ItemRepository;
 import ru.practicum.shareit.item.service.mappers.ItemMapper;
+import ru.practicum.shareit.requests.model.ItemRequest;
+import ru.practicum.shareit.requests.repository.ItemRequestRepository;
 import ru.practicum.shareit.user.model.User;
 import ru.practicum.shareit.user.repository.UserRepository;
 
@@ -26,31 +27,37 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-@Slf4j
 public class ItemServiceImpl implements ItemService {
     private ItemRepository itemRepository;
     private UserRepository userRepository;
     private BookingRepository bookingRepository;
     private CommentRepository commentRepository;
+    private ItemRequestRepository requestRepository;
     private ItemMapper itemMapper;
-    @Autowired
     private ModelMapper modelMapper;
 
-    public ItemServiceImpl(ItemRepository itemRepository,
-                           UserRepository userRepository, BookingRepository bookingRepository,
-                           CommentRepository commentRepository, ItemMapper itemMapper) {
+    public ItemServiceImpl(ItemRepository itemRepository, UserRepository userRepository,
+                           BookingRepository bookingRepository, CommentRepository commentRepository,
+                           ItemRequestRepository requestRepository, ItemMapper itemMapper, ModelMapper modelMapper) {
         this.itemRepository = itemRepository;
         this.userRepository = userRepository;
         this.bookingRepository = bookingRepository;
         this.commentRepository = commentRepository;
+        this.requestRepository = requestRepository;
         this.itemMapper = itemMapper;
+        this.modelMapper = modelMapper;
     }
 
     @Override
     public ItemDto addItem(long userId, ItemDto itemDto) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new NotFoundException("Такого пользователя нет"));
-        Item item = itemMapper.toItemEntity(user, itemDto);
+        ItemRequest request = null;
+        if (itemDto.getRequestId() != null && itemDto.getRequestId() > 0) {
+            request = requestRepository.findById(itemDto.getRequestId())
+                    .orElseThrow(() -> new NotFoundException("Такого запроса нет"));
+        }
+        Item item = itemMapper.toItemEntity(user, itemDto, request);
         return itemMapper.toItemDto(itemRepository.save(item));
     }
 
@@ -64,9 +71,9 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    public List<ItemDto> searchItem(String text) {
+    public List<ItemDto> searchItem(String text, Pageable pageable) {
         String searchText = text.toLowerCase();
-        List<Item> items = itemRepository.search(searchText);
+        List<Item> items = itemRepository.search(searchText, pageable);
         return MapperUtil.convertList(items, item -> itemMapper.toItemDto(item));
     }
 
@@ -89,9 +96,9 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    public List<ItemDtoBooking> findByUserId(long userId) {
+    public List<ItemDtoBooking> findByUserId(long userId, Pageable pageable) {
         User user = userRepository.findById(userId).orElseThrow(() -> new NotFoundException("Такого пользователя нет"));
-        List<Item> items = itemRepository.findAllByOwner_Id(userId);
+        List<Item> items = itemRepository.findAllByOwner_Id(userId, pageable).getContent();
         items.stream().map(item -> {
                     item.setComments(commentRepository.findAllByItem_Id(item.getId()));
                     return item;

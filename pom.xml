@@ -20,11 +20,11 @@
 	</properties>
 
 	<dependencies>
-		<dependency>
+		<!--<dependency>
 			<groupId>org.mapstruct</groupId>
 			<artifactId>mapstruct</artifactId>
 			<version>1.4.2.Final</version>
-		</dependency>
+		</dependency>-->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
@@ -235,8 +235,10 @@
 							</configuration>
 						</execution>
 						<execution>
-							<id>jacoco-site</id>
-							<phase>install</phase>
+							<!--<id>jacoco-site</id>
+							<phase>install</phase>-->
+							<id>jacoco-report</id>
+							<phase>test</phase>
 							<goals>
 								<goal>report</goal>
 							</goals>

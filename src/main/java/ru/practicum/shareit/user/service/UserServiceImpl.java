@@ -1,8 +1,6 @@
 package ru.practicum.shareit.user.service;
 
-import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.practicum.shareit.configuration.MapperUtil;
 import ru.practicum.shareit.exeptions.DuplicateEmail;
@@ -15,16 +13,15 @@ import ru.practicum.shareit.user.service.mappers.UserMapper;
 import java.util.List;
 
 @Service
-@Slf4j
 public class UserServiceImpl implements UserService {
-    @Autowired
     private ModelMapper modelMapper;
     private UserRepository userRepository;
     private UserMapper userMapper;
     private String errorNotFoundText = "Такого пользователя нет";
     private String errorDuplicateEmailText = "Такой Email уже существует";
 
-    public UserServiceImpl(UserRepository userRepository, UserMapper userMapper) {
+    public UserServiceImpl(ModelMapper modelMapper, UserRepository userRepository, UserMapper userMapper) {
+        this.modelMapper = modelMapper;
         this.userRepository = userRepository;
         this.userMapper = userMapper;
     }
