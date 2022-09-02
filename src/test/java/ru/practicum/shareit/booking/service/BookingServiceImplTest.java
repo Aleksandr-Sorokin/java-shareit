@@ -41,8 +41,8 @@ class BookingServiceImplTest {
 
     @BeforeEach
     void addData() {
-        ItemDto itemDtoOne = createItemDtoOne();
         ItemDto itemDtoTwo = createItemDtoTwo();
+        ItemDto itemDtoOne = createItemDtoOne();
         userService.addUser(createUserDto());
         userService.addUser(createUserDtoTwo());
         userService.addUser(createUserDtoThree());
