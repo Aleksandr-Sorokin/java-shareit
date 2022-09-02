@@ -35,8 +35,8 @@ public class ItemServiceImplIntegrationTest {
     private final ItemService itemService;
     private final UserService userService;
     private final BookingService bookingService;
-    private final LocalDateTime DATE_TIME_LAST = LocalDateTime.parse("2022-11-10T10:10:10");
-    private final LocalDateTime DATE_TIME_NEXT = LocalDateTime.parse("2022-11-12T10:10:10");
+    private final LocalDateTime dateTimeLast = LocalDateTime.parse("2022-11-10T10:10:10");
+    private final LocalDateTime dateTimeNext = LocalDateTime.parse("2022-11-12T10:10:10");
 
     @BeforeEach
     void addData() {
@@ -94,8 +94,8 @@ public class ItemServiceImplIntegrationTest {
     BookingDtoId createBookingDtoIdLast() {
         BookingDtoId booking = new BookingDtoId();
         booking.setId(1L);
-        booking.setStart(DATE_TIME_LAST.minusDays(1));
-        booking.setEnd(DATE_TIME_NEXT.minusDays(1));
+        booking.setStart(dateTimeLast.minusDays(1));
+        booking.setEnd(dateTimeNext.minusDays(1));
         booking.setItemId(1L);
         booking.setBookerId(2L);
         booking.setStatus(Status.WAITING);
@@ -130,7 +130,7 @@ public class ItemServiceImplIntegrationTest {
         comment.setText("CommentDtoText");
         comment.setItem(createItemDtoOne());
         comment.setAuthorName(createUserTwo().getName());
-        comment.setCreated(DATE_TIME_NEXT.plusDays(1));
+        comment.setCreated(dateTimeNext.plusDays(1));
         return comment;
     }
 

@@ -41,7 +41,7 @@ class ItemServiceImplTest {
     @Mock
     private ItemMapper itemMapper;
     private ItemService itemService;
-    private final LocalDateTime DATE_TIME = LocalDateTime.parse("2022-11-11T10:10:10");
+    private final LocalDateTime dateTime = LocalDateTime.parse("2022-11-11T10:10:10");
 
     @BeforeEach
     void setItemService() {
@@ -78,7 +78,7 @@ class ItemServiceImplTest {
         request.setId(1L);
         request.setDescription("DescriptionRequest");
         request.setRequestor(createUserTwo());
-        request.setCreated(DATE_TIME);
+        request.setCreated(dateTime);
         return request;
     }
 

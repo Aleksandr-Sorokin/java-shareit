@@ -34,7 +34,7 @@ class ItemControllerTest {
     private ObjectMapper objectMapper;
     @MockBean
     private ItemService itemService;
-    private final LocalDateTime DATE_TIME_NEXT = LocalDateTime.parse("2022-11-12T10:10:10");
+    private final LocalDateTime dateTimeNext = LocalDateTime.parse("2022-11-12T10:10:10");
 
     UserDto createUserDto() {
         UserDto dto = new UserDto();
@@ -79,7 +79,7 @@ class ItemControllerTest {
         comment.setText("CommentDtoText");
         comment.setItem(createItemDtoOne());
         comment.setAuthorName(createUserTwo().getName());
-        comment.setCreated(DATE_TIME_NEXT.plusDays(1));
+        comment.setCreated(dateTimeNext.plusDays(1));
         return comment;
     }
 

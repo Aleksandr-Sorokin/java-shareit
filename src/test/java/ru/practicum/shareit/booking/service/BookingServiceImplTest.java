@@ -36,8 +36,8 @@ class BookingServiceImplTest {
     private final UserService userService;
     private final ItemService itemService;
     private final BookingService bookingService;
-    private final LocalDateTime DATE_TIME_LAST = LocalDateTime.parse("2022-11-10T10:10:10");
-    private final LocalDateTime DATE_TIME_NEXT = LocalDateTime.parse("2022-11-12T10:10:10");
+    private final LocalDateTime dateTimeLast = LocalDateTime.parse("2022-11-10T10:10:10");
+    private final LocalDateTime dateTimeNext = LocalDateTime.parse("2022-11-12T10:10:10");
 
     @BeforeEach
     void addData() {
@@ -54,8 +54,8 @@ class BookingServiceImplTest {
         bookingDtoIdThreeUserThree.setId(3L);
         bookingDtoIdThreeUserThree.setBookerId(3L);
         bookingDtoIdThreeUserThree.setItemId(2L);
-        bookingDtoIdThreeUserThree.setStart(DATE_TIME_LAST.plusDays(1));
-        bookingDtoIdThreeUserThree.setEnd(DATE_TIME_NEXT.plusDays(1));
+        bookingDtoIdThreeUserThree.setStart(dateTimeLast.plusDays(1));
+        bookingDtoIdThreeUserThree.setEnd(dateTimeNext.plusDays(1));
         bookingService.addBooking(2L, bookingDtoIdFirstUsertwo);
         bookingService.addBooking(2L, bookingDtoIdSecondUsertwo);
         bookingService.addBooking(3L, bookingDtoIdThreeUserThree);
@@ -88,8 +88,8 @@ class BookingServiceImplTest {
     BookingDtoId createBookingDtoIdLast() {
         BookingDtoId booking = new BookingDtoId();
         booking.setId(1L);
-        booking.setStart(DATE_TIME_LAST.minusDays(1));
-        booking.setEnd(DATE_TIME_NEXT.minusDays(1));
+        booking.setStart(dateTimeLast.minusDays(1));
+        booking.setEnd(dateTimeNext.minusDays(1));
         booking.setItemId(1L);
         booking.setBookerId(2L);
         booking.setStatus(Status.WAITING);
@@ -99,8 +99,8 @@ class BookingServiceImplTest {
     BookingDtoId createBookingDtoIdNext() {
         BookingDtoId booking = new BookingDtoId();
         booking.setId(2L);
-        booking.setStart(DATE_TIME_LAST);
-        booking.setEnd(DATE_TIME_NEXT);
+        booking.setStart(dateTimeLast);
+        booking.setEnd(dateTimeNext);
         booking.setItemId(1L);
         booking.setBookerId(2L);
         booking.setStatus(Status.WAITING);
@@ -130,8 +130,8 @@ class BookingServiceImplTest {
     BookingDto createBookingDtoOne() {
         BookingDto booking = new BookingDto();
         booking.setId(1L);
-        booking.setStart(DATE_TIME_LAST.minusDays(1));
-        booking.setEnd(DATE_TIME_NEXT.minusDays(1));
+        booking.setStart(dateTimeLast.minusDays(1));
+        booking.setEnd(dateTimeNext.minusDays(1));
         booking.setItem(createItemDtoOne());
         booking.setBooker(createUserDtoTwo());
         booking.setStatus(Status.WAITING);
@@ -141,8 +141,8 @@ class BookingServiceImplTest {
     BookingDto createBookingDtoTwo() {
         BookingDto booking = new BookingDto();
         booking.setId(2L);
-        booking.setStart(DATE_TIME_LAST);
-        booking.setEnd(DATE_TIME_NEXT);
+        booking.setStart(dateTimeLast);
+        booking.setEnd(dateTimeNext);
         booking.setItem(createItemDtoOne());
         booking.setBooker(createUserDtoTwo());
         booking.setStatus(Status.WAITING);
@@ -152,8 +152,8 @@ class BookingServiceImplTest {
     BookingDto createBookingDtoThree() {
         BookingDto booking = new BookingDto();
         booking.setId(3L);
-        booking.setStart(DATE_TIME_LAST);
-        booking.setEnd(DATE_TIME_NEXT);
+        booking.setStart(dateTimeLast);
+        booking.setEnd(dateTimeNext);
         booking.setItem(createItemDtoTwo());
         booking.setBooker(createUserDtoThree());
         booking.setStatus(Status.REJECTED);
@@ -209,8 +209,8 @@ class BookingServiceImplTest {
     void getAllBookingByOwnerId() {
         Pageable pageable = PageHandlerRequest.of(0, 4, Sort.by(Sort.Direction.DESC, "start"));
         BookingDto bookingDtoThree = createBookingDtoThree();
-        bookingDtoThree.setStart(DATE_TIME_LAST.plusDays(1));
-        bookingDtoThree.setEnd(DATE_TIME_NEXT.plusDays(1));
+        bookingDtoThree.setStart(dateTimeLast.plusDays(1));
+        bookingDtoThree.setEnd(dateTimeNext.plusDays(1));
         List<BookingDto> expectedThree = List.of(bookingDtoThree, createBookingDtoTwo(), createBookingDtoOne());
         List<BookingDto> expectedTwo = List.of(createBookingDtoTwo(), createBookingDtoOne());
         BookingDto booking = bookingService.approvedBooking(1L, false, 3L);

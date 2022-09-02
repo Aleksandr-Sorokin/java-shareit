@@ -42,9 +42,9 @@ class ItemMapperTest {
         itemMapper = new ItemMapper(new ModelMapper(), userMapper, bookingMapping);
     }
 
-    private final LocalDateTime DATE_TIME = LocalDateTime.parse("2022-11-11T10:10:10");
-    private final LocalDateTime DATE_TIME_LAST = LocalDateTime.parse("2022-11-10T10:10:10");
-    private final LocalDateTime DATE_TIME_NEXT = LocalDateTime.parse("2022-11-12T10:10:10");
+    private final LocalDateTime dateTime = LocalDateTime.parse("2022-11-11T10:10:10");
+    private final LocalDateTime dateTimeLast = LocalDateTime.parse("2022-11-10T10:10:10");
+    private final LocalDateTime dateTimeNext = LocalDateTime.parse("2022-11-12T10:10:10");
 
     UserDto createUserDto() {
         UserDto dto = new UserDto();
@@ -75,7 +75,7 @@ class ItemMapperTest {
         request.setId(1L);
         request.setDescription("DescriptionRequest");
         request.setRequestor(createUserTwo());
-        request.setCreated(DATE_TIME);
+        request.setCreated(dateTime);
         return request;
     }
 
@@ -105,7 +105,7 @@ class ItemMapperTest {
         comment.setAuthorName("NameDtoTwo");
         comment.setText("comment");
         comment.setItem(createItemDtoNullCommentsNullRequest());
-        comment.setCreated(DATE_TIME);
+        comment.setCreated(dateTime);
         return comment;
     }
 
@@ -115,15 +115,15 @@ class ItemMapperTest {
         comment.setAuthor(createUserTwo());
         comment.setText("comment");
         comment.setItem(createItemNullCommentsNullRequest());
-        comment.setCreated(DATE_TIME);
+        comment.setCreated(dateTime);
         return comment;
     }
 
     Booking createBookingLast() {
         Booking booking = new Booking();
         booking.setId(1L);
-        booking.setStart(DATE_TIME_LAST.minusDays(1));
-        booking.setEnd(DATE_TIME_NEXT.minusDays(1));
+        booking.setStart(dateTimeLast.minusDays(1));
+        booking.setEnd(dateTimeNext.minusDays(1));
         booking.setItem(createItemNullCommentsNullRequest());
         booking.setBooker(createUserTwo());
         booking.setStatus(Status.WAITING);
@@ -133,8 +133,8 @@ class ItemMapperTest {
     Booking createBookingNext() {
         Booking booking = new Booking();
         booking.setId(2L);
-        booking.setStart(DATE_TIME_LAST);
-        booking.setEnd(DATE_TIME_NEXT);
+        booking.setStart(dateTimeLast);
+        booking.setEnd(dateTimeNext);
         booking.setItem(createItemNullCommentsNullRequest());
         booking.setBooker(createUserTwo());
         booking.setStatus(Status.WAITING);
@@ -144,8 +144,8 @@ class ItemMapperTest {
     BookingDtoId createBookingDtoIdLast() {
         BookingDtoId booking = new BookingDtoId();
         booking.setId(1L);
-        booking.setStart(DATE_TIME_LAST.minusDays(1));
-        booking.setEnd(DATE_TIME_NEXT.minusDays(1));
+        booking.setStart(dateTimeLast.minusDays(1));
+        booking.setEnd(dateTimeNext.minusDays(1));
         booking.setItemId(1L);
         booking.setBookerId(2L);
         booking.setStatus(Status.WAITING);
@@ -155,8 +155,8 @@ class ItemMapperTest {
     BookingDtoId createBookingDtoIdNext() {
         BookingDtoId booking = new BookingDtoId();
         booking.setId(2L);
-        booking.setStart(DATE_TIME_LAST);
-        booking.setEnd(DATE_TIME_NEXT);
+        booking.setStart(dateTimeLast);
+        booking.setEnd(dateTimeNext);
         booking.setItemId(1L);
         booking.setBookerId(2L);
         booking.setStatus(Status.WAITING);
