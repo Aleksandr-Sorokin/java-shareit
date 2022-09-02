@@ -42,9 +42,9 @@ class ItemMapperTest {
         itemMapper = new ItemMapper(new ModelMapper(), userMapper, bookingMapping);
     }
 
-    private final static LocalDateTime DATE_TIME = LocalDateTime.parse("2022-11-11T10:10:10");
-    private final static LocalDateTime DATE_TIME_LAST = LocalDateTime.parse("2022-11-10T10:10:10");
-    private final static LocalDateTime DATE_TIME_NEXT = LocalDateTime.parse("2022-11-12T10:10:10");
+    private final LocalDateTime DATE_TIME = LocalDateTime.parse("2022-11-11T10:10:10");
+    private final LocalDateTime DATE_TIME_LAST = LocalDateTime.parse("2022-11-10T10:10:10");
+    private final LocalDateTime DATE_TIME_NEXT = LocalDateTime.parse("2022-11-12T10:10:10");
 
     UserDto createUserDto() {
         UserDto dto = new UserDto();

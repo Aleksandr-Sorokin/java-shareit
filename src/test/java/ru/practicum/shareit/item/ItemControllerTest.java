@@ -34,7 +34,7 @@ class ItemControllerTest {
     private ObjectMapper objectMapper;
     @MockBean
     private ItemService itemService;
-    private final static LocalDateTime DATE_TIME_NEXT = LocalDateTime.parse("2022-11-12T10:10:10");
+    private final LocalDateTime DATE_TIME_NEXT = LocalDateTime.parse("2022-11-12T10:10:10");
 
     UserDto createUserDto() {
         UserDto dto = new UserDto();

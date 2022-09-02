@@ -41,7 +41,7 @@ class ItemServiceImplTest {
     @Mock
     private ItemMapper itemMapper;
     private ItemService itemService;
-    private final static LocalDateTime DATE_TIME = LocalDateTime.parse("2022-11-11T10:10:10");
+    private final LocalDateTime DATE_TIME = LocalDateTime.parse("2022-11-11T10:10:10");
 
     @BeforeEach
     void setItemService() {
@@ -133,7 +133,7 @@ class ItemServiceImplTest {
         ItemDto itemDtoWithRequestNotId = createItemDtoWithRequest();
         itemDtoWithRequestNotId.setId(null);
         User user = createUser();
-        Mockito.when(userRepository.findById(1l)).thenReturn(Optional.of(user));
+        Mockito.when(userRepository.findById(1L)).thenReturn(Optional.of(user));
         Mockito.when(itemMapper.toItemEntity(user, itemDtoNotRequestNotId, null))
                 .thenReturn(itemNotRequest);
         Mockito.when(itemRepository.save(Mockito.any(Item.class))).thenReturn(itemNotRequest);
@@ -151,7 +151,7 @@ class ItemServiceImplTest {
         itemDtoWithRequestNotId.setId(null);
         ItemRequest request = createRequest();
         User user = createUser();
-        Mockito.when(userRepository.findById(1l)).thenReturn(Optional.of(user));
+        Mockito.when(userRepository.findById(1L)).thenReturn(Optional.of(user));
         Mockito.when(requestRepository.findById(1L)).thenReturn(Optional.of(request));
         Mockito.when(itemMapper.toItemEntity(user, itemDtoWithRequestNotId, request))
                 .thenReturn(itemWithRequest);
@@ -168,7 +168,7 @@ class ItemServiceImplTest {
         ItemDto itemDtoWithRequestNotId = createItemDtoWithRequest();
         itemDtoWithRequestNotId.setId(null);
         User user = createUser();
-        Mockito.when(userRepository.findById(1l)).thenReturn(Optional.of(user));
+        Mockito.when(userRepository.findById(1L)).thenReturn(Optional.of(user));
         Mockito.when(requestRepository.findById(1L)).thenThrow(new NotFoundException("Такого запроса нет"));
         assertThrows(NotFoundException.class, () -> itemService.addItem(1L, itemDtoWithRequestNotId));
     }
