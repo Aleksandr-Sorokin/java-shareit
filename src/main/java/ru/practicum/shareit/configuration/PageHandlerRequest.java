@@ -5,8 +5,6 @@ import org.springframework.data.domain.Sort;
 import ru.practicum.shareit.exeptions.ValidationException;
 
 public class PageHandlerRequest implements Pageable {
-    public static final int DEFAULT_PAGE_SIZE = 20;
-    public static final int DEFAULT_PAGE_FROM = 0;
     private final int from;
     private final int size;
     private final Sort sort;
@@ -71,24 +69,4 @@ public class PageHandlerRequest implements Pageable {
     public boolean hasPrevious() {
         return false;
     }
-/*
-    @Override
-    public boolean isPaged() {
-        return Pageable.super.isPaged();
-    }
-
-    @Override
-    public boolean isUnpaged() {
-        return Pageable.super.isUnpaged();
-    }
-
-    @Override
-    public Sort getSortOr(Sort sort) {
-        return Pageable.super.getSortOr(sort);
-    }
-
-    @Override
-    public Optional<Pageable> toOptional() {
-        return Pageable.super.toOptional();
-    }*/
 }

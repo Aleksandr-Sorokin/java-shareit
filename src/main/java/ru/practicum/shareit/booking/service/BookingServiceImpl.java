@@ -104,7 +104,7 @@ public class BookingServiceImpl implements BookingService {
                                 .findAllByBookerAndStatus(bookerId, Status.REJECTED, pageable),
                         this::convertToDto);
             default:
-                throw new ValidationException("Unknown state: UNSUPPORTED_STATUS");
+                throw new IllegalArgumentException("Unknown state: UNSUPPORTED_STATUS");
         }
     }
 
@@ -142,7 +142,7 @@ public class BookingServiceImpl implements BookingService {
                                 .findAllByOwnerAndStatus(ownerId, Status.REJECTED, pageable),
                         this::convertToDto);
             default:
-                throw new ValidationException("Unknown state: UNSUPPORTED_STATUS");
+                throw new IllegalArgumentException("Unknown state: UNSUPPORTED_STATUS");
         }
     }
 

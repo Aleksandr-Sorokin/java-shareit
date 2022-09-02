@@ -34,6 +34,7 @@ public class RequestMapper {
 
     public ItemRequestDto toDto(ItemRequest itemRequest) {
         ItemRequestDto dto = mapper.map(itemRequest, ItemRequestDto.class);
+
         dto.setRequestor(userMapper.toUserDto(itemRequest.getRequestor()));
         return dto;
     }

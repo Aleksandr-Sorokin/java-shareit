@@ -43,16 +43,6 @@ public class ItemMapper {
         }
     }
 
-    public Item toItemEntity(User user, ItemDtoBooking itemDto) {
-        if (itemDto == null) {
-            throw new ValidationException(textValidError);
-        } else {
-            Item item = modelMapper.map(itemDto, Item.class);
-            item.setOwner(user);
-            return item;
-        }
-    }
-
     public ItemDto toItemDto(Item item) {
         if (item == null) {
             throw new ValidationException(textValidError);

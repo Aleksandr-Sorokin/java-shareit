@@ -9,21 +9,15 @@ import ru.practicum.shareit.booking.model.dto.BookingDtoId;
 import ru.practicum.shareit.booking.service.BookingService;
 import ru.practicum.shareit.configuration.PageHandlerRequest;
 import ru.practicum.shareit.exeptions.ValidationException;
-import ru.practicum.shareit.item.service.ItemService;
-import ru.practicum.shareit.user.service.UserService;
 
 import java.util.List;
 
 @RestController
 @RequestMapping(path = "/bookings")
 public class BookingController {
-    private ItemService itemService;
-    private UserService userService;
     private BookingService bookingService;
 
-    public BookingController(ItemService itemService, UserService userService, BookingService bookingService) {
-        this.itemService = itemService;
-        this.userService = userService;
+    public BookingController(BookingService bookingService) {
         this.bookingService = bookingService;
     }
 
@@ -38,7 +32,6 @@ public class BookingController {
     public BookingDto approvedBooking(@RequestHeader("X-Sharer-User-Id") long ownerId,
                                       @PathVariable long bookingId,
                                       @RequestParam boolean approved) {
-        if ((Boolean) approved == null) throw new ValidationException("параметр бронировая пуст");
         checkValidId(ownerId);
         checkValidId(bookingId);
         return bookingService.approvedBooking(ownerId, approved, bookingId);

@@ -73,6 +73,10 @@
 			<artifactId>junit</artifactId>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.datatype</groupId>
+			<artifactId>jackson-datatype-jsr310</artifactId>
+		</dependency>
 	</dependencies>
 
 	<build>
@@ -212,17 +216,17 @@
 											<limit>
 												<counter>BRANCH</counter>
 												<value>COVEREDRATIO</value>
-												<minimum>0.9</minimum>
+												<minimum>0.6</minimum>
 											</limit>
 											<limit>
 												<counter>COMPLEXITY</counter>
 												<value>COVEREDRATIO</value>
-												<minimum>0.9</minimum>
+												<minimum>0.6</minimum>
 											</limit>
 											<limit>
 												<counter>METHOD</counter>
 												<value>COVEREDRATIO</value>
-												<minimum>0.9</minimum>
+												<minimum>0.7</minimum>
 											</limit>
 											<limit>
 												<counter>CLASS</counter>

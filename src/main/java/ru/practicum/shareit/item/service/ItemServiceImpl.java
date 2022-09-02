@@ -82,8 +82,10 @@ public class ItemServiceImpl implements ItemService {
         Item item = itemRepository.findById(itemId).orElseThrow(() -> new NotFoundException("Нет такой вещи"));
         User user = userRepository.findById(userId).orElseThrow(() -> new NotFoundException("Такого пользователя нет"));
         List<Comment> comments = commentRepository.findAllByItem_Id(itemId);
-        Booking last = bookingRepository.findFirstByItem_IdAndAndEndBeforeOrderByEndDesc(item.getId(), LocalDateTime.now());
-        Booking next = bookingRepository.findFirstByItem_IdAndStartAfterOrderByStartAsc(item.getId(), LocalDateTime.now());
+        Booking last = bookingRepository
+                .findFirstByItem_IdAndAndEndBeforeOrderByEndDesc(item.getId(), LocalDateTime.now());
+        Booking next = bookingRepository
+                .findFirstByItem_IdAndStartAfterOrderByStartAsc(item.getId(), LocalDateTime.now());
         return itemMapper.toItemDtoBooking(item, user, last, next, comments);
     }
 
@@ -112,7 +114,8 @@ public class ItemServiceImpl implements ItemService {
     @Override
     public CommentDto addComment(Long userId, Long itemId, CommentDto commentDto) {
         Item item = itemRepository.findById(itemId).orElseThrow(() -> new NotFoundException("Нет такой вещи"));
-        User author = userRepository.findById(userId).orElseThrow(() -> new NotFoundException("Такого пользователя нет"));
+        User author = userRepository.findById(userId)
+                .orElseThrow(() -> new NotFoundException("Такого пользователя нет"));
         Booking booking = bookingRepository.findFirstByItem_IdAndBooker_Id(itemId, userId);
         if (booking == null
                 || commentDto.getCreated().isBefore(booking.getStart())

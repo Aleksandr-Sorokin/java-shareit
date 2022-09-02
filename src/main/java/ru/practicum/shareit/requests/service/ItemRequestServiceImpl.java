@@ -38,7 +38,7 @@ public class ItemRequestServiceImpl implements ItemRequestService {
     public ItemRequestDto addItemRequest(Long userId, ItemRequestDto requestDto) {
         if (requestDto == null || requestDto.getDescription() == null
                 || requestDto.getDescription().isBlank()) throw new ValidationException(responsNotValid);
-        requestDto.setCreated(LocalDateTime.now());
+        requestDto.setCreated(LocalDateTime.now().withNano(0));
         User requestor = userRepository.findById(userId).orElseThrow(() -> new NotFoundException(responseNotUser));
         ItemRequest itemRequest = requestMapper.toEntity(requestDto, requestor);
         return requestMapper.toDto(requestRepository.save(itemRequest));
