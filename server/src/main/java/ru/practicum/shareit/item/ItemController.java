@@ -1,6 +1,7 @@
 package ru.practicum.shareit.item;
 
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.shareit.configuration.PageHandlerRequest;
 import ru.practicum.shareit.exeptions.ValidationException;
@@ -47,7 +48,7 @@ public class ItemController {
                                              @RequestParam(defaultValue = "20", required = false) int size) {
         checkValidId(userId);
         if (from < 0 || size < 1) throw new ValidationException("Не корректные данные");
-        Pageable pageable = PageHandlerRequest.of(from, size);
+        Pageable pageable = PageHandlerRequest.of(from, size, Sort.by(Sort.Direction.ASC, "start"));
         return itemService.findByUserId(userId, pageable);
     }
 
