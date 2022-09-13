@@ -53,8 +53,8 @@ public class ItemClient extends BaseClient {
                 "from", from,
                 "size", size
         );
-        String path = "?from={from}&size={size}";
-        return get(path, userId, parameters);
+        //String path = "?from={from}&size={size}";
+        return get("?from={from}&size={size}", userId, parameters);
     }
 
     public ResponseEntity<Object> addItem(long userId, ItemDto itemDto) {
