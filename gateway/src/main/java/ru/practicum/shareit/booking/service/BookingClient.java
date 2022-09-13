@@ -29,6 +29,16 @@ public class BookingClient extends BaseClient {
         );
     }
 
+    /*@Autowired
+    public BookingClient(@Value("${shareit-server.url}") String serverUrl, RestTemplateBuilder builder) {
+        super(
+                builder
+                        .uriTemplateHandler(new DefaultUriBuilderFactory(serverUrl + API_PREFIX))
+                        .requestFactory(HttpComponentsClientHttpRequestFactory::new)
+                        .build()
+        );
+    }*/
+
     public ResponseEntity<Object> addBooking(long bookerId, BookingDtoId bookingDtoId) {
         checkValidTime(bookingDtoId);
         String path = "";
@@ -40,14 +50,14 @@ public class BookingClient extends BaseClient {
                 "approved", approved
         );
         String path = "/{bookingId}?approved={approved}";
-        return patch("/" + bookingId + "?approved={approved}", ownerId, parameters);
+        return patch("/" + bookingId + "?approved={approved}", ownerId, parameters, null);
     }
 
     public ResponseEntity<Object> getBookingById(long userId, long bookingId) {
-        Map<String, Object> parameters = Map.of(
+        /*Map<String, Object> parameters = Map.of(
                 "bookingId", bookingId
         );
-        String path = "/{bookingId}";
+        String path = "/{bookingId}";*/
         return get("/" + bookingId, userId);
     }
 
@@ -58,7 +68,7 @@ public class BookingClient extends BaseClient {
                 "size", size
         );
         String path = "?state={state}&from={from}&size={size}";
-        return get("?state={state}&from={from}&size={size}", userId, parameters);
+        return get("/?state={state}&from={from}&size={size}", userId, parameters);
     }
 
     public ResponseEntity<Object> getAllBookingByOwnerId(long userId, State state, Integer from, Integer size) {

@@ -1,5 +1,6 @@
 package ru.practicum.shareit.item;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.shareit.exeptions.ValidationException;
@@ -11,12 +12,9 @@ import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/items")
+@RequiredArgsConstructor
 public class ItemController {
-    private ItemClient itemClient;
-
-    public ItemController(ItemClient itemClient) {
-        this.itemClient = itemClient;
-    }
+    private final ItemClient itemClient;
 
     @GetMapping("/{itemId}")
     public ResponseEntity<Object> findItemById(@RequestHeader("X-Sharer-User-Id") long userId,
@@ -30,10 +28,7 @@ public class ItemController {
     public ResponseEntity<Object> searchItem(@RequestParam String text,
                                              @RequestParam(defaultValue = "0", required = false) int from,
                                              @RequestParam(defaultValue = "20", required = false) int size) {
-        //ResponseEntity<Object> list = new ResponseEntity<>(new ArrayList<>());
-        //if (text.isBlank()) return new ArrayList<>();
         if (from < 0 || size < 1) throw new ValidationException("Не корректные данные");
-        //Pageable pageable = PageHandlerRequest.of(from, size);
         return itemClient.searchItem(text, from, size);
     }
 
@@ -43,7 +38,6 @@ public class ItemController {
                                                @RequestParam(defaultValue = "20", required = false) int size) {
         checkValidId(userId);
         if (from < 0 || size < 1) throw new ValidationException("Не корректные данные");
-        //Pageable pageable = PageHandlerRequest.of(from, size);
         return itemClient.findByUserId(userId, from, size);
     }
 

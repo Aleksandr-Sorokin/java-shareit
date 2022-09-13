@@ -1,5 +1,6 @@
 package ru.practicum.shareit.requests;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.shareit.exeptions.ValidationException;
@@ -8,12 +9,9 @@ import ru.practicum.shareit.requests.service.ItemRequestClient;
 
 @RestController
 @RequestMapping(path = "/requests")
+@RequiredArgsConstructor
 public class ItemRequestController {
-    private ItemRequestClient requestClient;
-
-    public ItemRequestController(ItemRequestClient requestClient) {
-        this.requestClient = requestClient;
-    }
+    private final ItemRequestClient requestClient;
 
     @PostMapping
     public ResponseEntity<Object> addItemRequest(@RequestHeader("X-Sharer-User-Id") Long userId,

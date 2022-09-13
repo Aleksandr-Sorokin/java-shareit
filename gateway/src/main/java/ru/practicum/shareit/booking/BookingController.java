@@ -11,7 +11,7 @@ import ru.practicum.shareit.exeptions.ValidationException;
 @RestController
 @RequestMapping(path = "/bookings")
 @RequiredArgsConstructor
-public class BookingControllers {
+public class BookingController {
     private final BookingClient bookingClient;
 
     @PostMapping
@@ -60,7 +60,7 @@ public class BookingControllers {
         return bookingClient.getAllBookingByOwnerId(ownerId, state, from, size);
     }
 
-    private void checkValidId(long id) {
+    public void checkValidId(long id) {
         if (id <= 0) throw new ValidationException("Id меньше или равен 0");
     }
 
