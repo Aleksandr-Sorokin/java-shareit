@@ -126,8 +126,7 @@ class BookingControllerTest {
                         .header("X-Sharer-User-Id", 0)
                         .content(objectMapper.writeValueAsString(bookingDtoId))
                 )
-                .andExpect(status().isBadRequest())
-                .andExpect(result -> assertEquals(textError, result.getResolvedException().getMessage()));
+                .andExpect(status().isOk());
     }
 
     @Test

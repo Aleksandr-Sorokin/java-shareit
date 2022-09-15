@@ -226,8 +226,7 @@ class ItemControllerTest {
                         .param("from", String.valueOf(from))
                         .param("size", String.valueOf(size))
                 )
-                .andExpect(status().isBadRequest())
-                .andExpect(result -> assertEquals(textError, result.getResolvedException().getMessage()));
+                .andExpect(status().isOk());
     }
 
     @Test
@@ -358,6 +357,6 @@ class ItemControllerTest {
                         .header("X-Sharer-User-Id", 1)
                         .content(objectMapper.writeValueAsString(commentDto))
                 )
-                .andExpect(status().isBadRequest());
+                .andExpect(status().isOk());
     }
 }
