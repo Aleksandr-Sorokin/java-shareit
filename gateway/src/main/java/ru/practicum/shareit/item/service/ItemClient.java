@@ -9,6 +9,7 @@ import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.web.util.DefaultUriBuilderFactory;
 import ru.practicum.shareit.client.BaseClient;
+import ru.practicum.shareit.exeptions.ValidationException;
 import ru.practicum.shareit.item.model.dto.CommentDto;
 import ru.practicum.shareit.item.model.dto.ItemDto;
 
@@ -53,16 +54,18 @@ public class ItemClient extends BaseClient {
                 "from", from,
                 "size", size
         );
-        //String path = "?from={from}&size={size}";
-        return get("/?from={from}&size={size}", userId, parameters);
+        String path = "/?from={from}&size={size}";
+        return get(path, userId, parameters);
     }
 
     public ResponseEntity<Object> addItem(long userId, ItemDto itemDto) {
+        if (itemDto == null) throw new ValidationException("Отсутствуют данные по вещи");
         String path = "";
         return post(path, userId, itemDto);
     }
 
     public ResponseEntity<Object> changeItem(long userId, long itemId, ItemDto itemDto) {
+        if (itemDto == null) throw new ValidationException("Отсутствуют данные по вещи");
         Map<String, Object> parameters = Map.of(
                 "itemId", itemId
         );
@@ -79,6 +82,9 @@ public class ItemClient extends BaseClient {
     }
 
     public ResponseEntity<Object> addComment(long userId, long itemId, CommentDto commentDto) {
+        if (commentDto.getText().isBlank()) {
+            throw new ValidationException("Коментарий отсутствует");
+        }
         Map<String, Object> parameters = Map.of(
                 "itemId", itemId
         );

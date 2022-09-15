@@ -38,7 +38,6 @@ public class BookingServiceImpl implements BookingService {
     @Override
     public BookingDto addBooking(long bookerId, BookingDtoId bookingDtoId) {
         checkItem(bookerId, bookingDtoId.getItemId());
-        checkValidTime(bookingDtoId);
         bookingDtoId.setBookerId(bookerId);
         Booking booking = modelMapper.map(bookingDtoId, Booking.class);
         booking.setStatus(Status.WAITING);
@@ -154,14 +153,6 @@ public class BookingServiceImpl implements BookingService {
 
     private User checkUser(long userId) {
         return userRepository.findById(userId).orElseThrow(() -> new NotFoundException("Пользователь не найден"));
-    }
-
-    private void checkValidTime(BookingDtoId bookingDtoId) {
-        LocalDateTime startTime = bookingDtoId.getStart();
-        LocalDateTime endTime = bookingDtoId.getEnd();
-        if (endTime.isBefore(LocalDateTime.now())) throw new ValidationException("Время окончания не корректно");
-        if (startTime.isAfter(endTime)) throw new ValidationException("Время окончания раньше начала");
-        if (startTime.isBefore(LocalDateTime.now())) throw new ValidationException("Время начала не корректно");
     }
 
     private void checkAvailable(Booking booking) {

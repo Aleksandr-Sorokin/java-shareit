@@ -75,7 +75,6 @@ public class ItemController {
         if (commentDto.getText().isBlank()) {
             throw new ValidationException("Коментарий отсутствует");
         }
-        //commentDto.setCreated(LocalDateTime.now());
         return itemClient.addComment(userId, itemId, commentDto);
     }
 

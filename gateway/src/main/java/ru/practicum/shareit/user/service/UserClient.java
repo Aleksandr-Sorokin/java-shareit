@@ -24,26 +24,26 @@ public class UserClient extends BaseClient {
 
     public ResponseEntity<Object> findUserById(long userId) {
         String path = "/{userId}";
-        return get("/" + userId);
+        return get(path);
     }
 
     public ResponseEntity<Object> addUser(UserDto userDto) {
         String path = "";
-        return post("", userDto);
+        return post(path, userDto);
     }
 
     public ResponseEntity<Object> changeUser(long userId, UserDto userDto) {
         String path = "/{userId}";
-        return patch("/" + userId, userDto);
+        return patch(path, userDto);
     }
 
     public ResponseEntity<Object> deleteUser(long userId) {
         String path = "/{userId}";
-        return delete("/" + userId);
+        return delete(path);
     }
 
     public ResponseEntity<Object> findAll() {
         String path = "";
-        return get("");
+        return get(path);
     }
 }

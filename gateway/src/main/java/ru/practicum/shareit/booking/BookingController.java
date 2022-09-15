@@ -45,7 +45,6 @@ public class BookingController {
                                                        @RequestParam(defaultValue = "20", required = false) int size) {
         checkValidId(bookerId);
         if (from < 0 || size < 1) throw new ValidationException("Не корректные данные");
-        //Pageable pageable = PageHandlerRequest.of(from, size, Sort.by(Sort.Direction.DESC, "start"));
         return bookingClient.getAllBookingByBookerId(bookerId, state, from, size);
     }
 
@@ -56,12 +55,10 @@ public class BookingController {
                                                       @RequestParam(defaultValue = "20", required = false) int size) {
         checkValidId(ownerId);
         if (from < 0 || size < 1) throw new ValidationException("Не корректные данные");
-        //Pageable pageable = PageHandlerRequest.of(from, size, Sort.by(Sort.Direction.DESC, "start"));
         return bookingClient.getAllBookingByOwnerId(ownerId, state, from, size);
     }
 
-    public void checkValidId(long id) {
+    private void checkValidId(long id) {
         if (id <= 0) throw new ValidationException("Id меньше или равен 0");
     }
-
 }

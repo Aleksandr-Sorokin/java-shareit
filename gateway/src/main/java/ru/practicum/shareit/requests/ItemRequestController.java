@@ -32,7 +32,6 @@ public class ItemRequestController {
                                                 @RequestParam(defaultValue = "20", required = false) int size) {
         checkValidId(userId);
         if (from < 0 || size < 1) throw new ValidationException("Не корректные данные");
-        //Pageable pageable = PageHandlerRequest.of(from, size, Sort.by(Sort.Direction.DESC, "created"));
         return requestClient.getAllItemRequest(userId, from, size);
     }
 

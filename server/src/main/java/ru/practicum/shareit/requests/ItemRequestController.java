@@ -4,7 +4,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.shareit.configuration.PageHandlerRequest;
-import ru.practicum.shareit.exeptions.ValidationException;
 import ru.practicum.shareit.requests.model.dto.ItemRequestDto;
 import ru.practicum.shareit.requests.model.dto.RequestAllWithItemDto;
 import ru.practicum.shareit.requests.service.ItemRequestService;
@@ -23,8 +22,7 @@ public class ItemRequestController {
     @PostMapping
     public ItemRequestDto addItemRequest(@RequestHeader("X-Sharer-User-Id") Long userId,
                                          @RequestBody ItemRequestDto requestDto) {
-        ItemRequestDto itemRequestDto = requestService.addItemRequest(userId, requestDto);
-        return itemRequestDto;
+        return requestService.addItemRequest(userId, requestDto);
     }
 
     @GetMapping
@@ -36,7 +34,6 @@ public class ItemRequestController {
     public List<RequestAllWithItemDto> getAllRequest(@RequestHeader("X-Sharer-User-Id") Long userId,
                                                      @RequestParam(defaultValue = "0", required = false) int from,
                                                      @RequestParam(defaultValue = "20", required = false) int size) {
-        if (from < 0 || size < 1) throw new ValidationException("Не корректные данные");
         Pageable pageable = PageHandlerRequest.of(from, size, Sort.by(Sort.Direction.DESC, "created"));
         return requestService.getAllItemRequest(userId, pageable);
     }

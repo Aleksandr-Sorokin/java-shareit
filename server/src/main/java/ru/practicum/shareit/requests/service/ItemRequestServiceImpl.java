@@ -3,7 +3,6 @@ package ru.practicum.shareit.requests.service;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import ru.practicum.shareit.exeptions.NotFoundException;
-import ru.practicum.shareit.exeptions.ValidationException;
 import ru.practicum.shareit.item.repository.ItemRepository;
 import ru.practicum.shareit.requests.model.ItemRequest;
 import ru.practicum.shareit.requests.model.dto.ItemRequestDto;
@@ -24,7 +23,6 @@ public class ItemRequestServiceImpl implements ItemRequestService {
     private ItemRepository itemRepository;
     private ItemRequestRepository requestRepository;
     private String responseNotUser = "Такого пользователя нет";
-    private String responsNotValid = "Нет данных для запроса";
 
     public ItemRequestServiceImpl(RequestMapper requestMapper, UserRepository userRepository,
                                   ItemRepository itemRepository, ItemRequestRepository requestRepository) {
@@ -36,8 +34,6 @@ public class ItemRequestServiceImpl implements ItemRequestService {
 
     @Override
     public ItemRequestDto addItemRequest(Long userId, ItemRequestDto requestDto) {
-        if (requestDto == null || requestDto.getDescription() == null
-                || requestDto.getDescription().isBlank()) throw new ValidationException(responsNotValid);
         requestDto.setCreated(LocalDateTime.now().withNano(0));
         User requestor = userRepository.findById(userId).orElseThrow(() -> new NotFoundException(responseNotUser));
         ItemRequest itemRequest = requestMapper.toEntity(requestDto, requestor);
