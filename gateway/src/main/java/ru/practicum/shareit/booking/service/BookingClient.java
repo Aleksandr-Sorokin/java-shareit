@@ -44,8 +44,8 @@ public class BookingClient extends BaseClient {
     }
 
     public ResponseEntity<Object> getBookingById(long userId, long bookingId) {
-        String path = "/{bookingId}";
-        return get(path, userId);
+        StringBuilder path = new StringBuilder("/" + bookingId);
+        return get(String.valueOf(path), userId);
     }
 
     public ResponseEntity<Object> getAllBookingByBookerId(long userId, State state, Integer from, Integer size) {
