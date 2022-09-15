@@ -51,7 +51,7 @@ public class BookingController {
                                                 @RequestParam(defaultValue = "ALL") State state,
                                                 @RequestParam(defaultValue = "0", required = false) int from,
                                                 @RequestParam(defaultValue = "20", required = false) int size) {
-        Pageable pageable = PageHandlerRequest.of(from, size, Sort.by(Sort.Direction.DESC, "start"));
+        Pageable pageable = PageHandlerRequest.of(from, size, Sort.by(Sort.Direction.ASC, "start"));
         return bookingService.getAllBookingByOwnerId(ownerId, state, pageable);
     }
 }
