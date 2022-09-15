@@ -23,8 +23,8 @@ public class UserClient extends BaseClient {
     }
 
     public ResponseEntity<Object> findUserById(long userId) {
-        String path = "/{userId}";
-        return get(path);
+        StringBuilder path = new StringBuilder("/" + userId);
+        return get(String.valueOf(path));
     }
 
     public ResponseEntity<Object> addUser(UserDto userDto) {
@@ -33,13 +33,13 @@ public class UserClient extends BaseClient {
     }
 
     public ResponseEntity<Object> changeUser(long userId, UserDto userDto) {
-        String path = "/{userId}";
-        return patch(path, userDto);
+        StringBuilder path = new StringBuilder("/" + userId);
+        return patch(String.valueOf(path), userDto);
     }
 
     public ResponseEntity<Object> deleteUser(long userId) {
-        String path = "/{userId}";
-        return delete(path);
+        StringBuilder path = new StringBuilder("/" + userId);
+        return delete(String.valueOf(path));
     }
 
     public ResponseEntity<Object> findAll() {

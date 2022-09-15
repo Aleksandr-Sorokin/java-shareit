@@ -39,8 +39,8 @@ public class BookingClient extends BaseClient {
         Map<String, Object> parameters = Map.of(
                 "approved", approved
         );
-        String path = "/{bookingId}?approved={approved}";
-        return patch(path, ownerId, parameters, null);
+        StringBuilder path = new StringBuilder("/" + bookingId + "?approved=" + approved);
+        return patch(String.valueOf(path), ownerId, parameters, null);
     }
 
     public ResponseEntity<Object> getBookingById(long userId, long bookingId) {
@@ -54,8 +54,8 @@ public class BookingClient extends BaseClient {
                 "from", from,
                 "size", size
         );
-        String path = "/?state={state}&from={from}&size={size}";
-        return get(path, userId, parameters);
+        StringBuilder path = new StringBuilder("/?state=" + state + "&from=" + from + "&size=" + size);
+        return get(String.valueOf(path), userId, parameters);
     }
 
     public ResponseEntity<Object> getAllBookingByOwnerId(long userId, State state, Integer from, Integer size) {
@@ -64,8 +64,8 @@ public class BookingClient extends BaseClient {
                 "from", from,
                 "size", size
         );
-        String path = "/owner?state={state}&from={from}&size={size}";
-        return get(path, userId, parameters);
+        StringBuilder path = new StringBuilder("/owner?state=" + state + "&from=" + from + "&size=" + size);
+        return get(String.valueOf(path), userId, parameters);
     }
 
     private void checkValidTime(BookingDtoId bookingDtoId) {

@@ -44,15 +44,15 @@ public class ItemRequestClient extends BaseClient {
                 "from", from,
                 "size", size
         );
-        String path = "/all?from={from}&size={size}";
-        return get(path, userId, parameters);
+        StringBuilder path = new StringBuilder("/all?from=" + from + "&size=" + size);
+        return get(String.valueOf(path), userId, parameters);
     }
 
     public ResponseEntity<Object> getRequestByRequestId(long userId, long requestId) {
         Map<String, Object> parameters = Map.of(
                 "requestId", requestId
         );
-        String path = "/{requestId}";
-        return get(path, userId, parameters);
+        StringBuilder path = new StringBuilder("/" + requestId);
+        return get(String.valueOf(path), userId, parameters);
     }
 }

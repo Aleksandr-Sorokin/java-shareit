@@ -34,8 +34,8 @@ public class ItemClient extends BaseClient {
         Map<String, Object> parameters = Map.of(
                 "itemId", itemId
         );
-        String path = "/{itemId}";
-        return get(path, userId, parameters);
+        StringBuilder path = new StringBuilder("/" + itemId);
+        return get(String.valueOf(path), userId, parameters);
     }
 
     public ResponseEntity<Object> searchItem(String text, Integer from, Integer size) {
@@ -45,8 +45,8 @@ public class ItemClient extends BaseClient {
                 "from", from,
                 "size", size
         );
-        String path = "/search?text={text}&from={from}&size={size}";
-        return get(path, null, parameters);
+        StringBuilder path = new StringBuilder("/search?text=" + text + "&from=" + from + "&size=" + size);
+        return get(String.valueOf(path), null, parameters);
     }
 
     public ResponseEntity<Object> findByUserId(long userId, Integer from, Integer size) {
@@ -54,8 +54,8 @@ public class ItemClient extends BaseClient {
                 "from", from,
                 "size", size
         );
-        String path = "/?from={from}&size={size}";
-        return get(path, userId, parameters);
+        StringBuilder path = new StringBuilder("/?from=" + from + " &size=" + size);
+        return get(String.valueOf(path), userId, parameters);
     }
 
     public ResponseEntity<Object> addItem(long userId, ItemDto itemDto) {
@@ -69,16 +69,16 @@ public class ItemClient extends BaseClient {
         Map<String, Object> parameters = Map.of(
                 "itemId", itemId
         );
-        String path = "/{itemId}";
-        return patch(path, userId, parameters, itemDto);
+        StringBuilder path = new StringBuilder("/" + itemId);
+        return patch(String.valueOf(path), userId, parameters, itemDto);
     }
 
     public ResponseEntity<Object> deleteByUserIdAndItemId(long userId, long itemId) {
         Map<String, Object> parameters = Map.of(
                 "itemId", itemId
         );
-        String path = "/{itemId}";
-        return delete(path, userId, parameters);
+        StringBuilder path = new StringBuilder("/" + itemId);
+        return delete(String.valueOf(path), userId, parameters);
     }
 
     public ResponseEntity<Object> addComment(long userId, long itemId, CommentDto commentDto) {
@@ -88,7 +88,7 @@ public class ItemClient extends BaseClient {
         Map<String, Object> parameters = Map.of(
                 "itemId", itemId
         );
-        String path = "/{itemId}/comment";
-        return post(path, userId, parameters, commentDto);
+        StringBuilder path = new StringBuilder("/" + itemId + "/comment");
+        return post(String.valueOf(path), userId, parameters, commentDto);
     }
 }
